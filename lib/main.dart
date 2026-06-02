@@ -49,7 +49,10 @@ class VortexCamApp extends StatelessWidget {
     title: 'SAMBA AIR',
     debugShowCheckedModeBanner: false,
     theme: ThemeData.dark(useMaterial3: true).copyWith(
-      colorScheme: const ColorScheme.dark(primary: Color(0xFF00BBDD)),
+      colorScheme: const ColorScheme.dark(
+        primary: Color(0xFFFF5E5E),
+        secondary: Color(0xFF00BBDD),
+      ),
       scaffoldBackgroundColor: Colors.black,
       appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF0A0A0A), elevation: 0),
     ),
