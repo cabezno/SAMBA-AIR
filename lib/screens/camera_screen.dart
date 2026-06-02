@@ -28,16 +28,15 @@ class _CameraScreenState extends State<CameraScreen> {
     final cam = context.read<CameraService>();
     if (cam.stream != null) _renderer.srcObject = cam.stream;
 
-    // Allow all orientations — lock to landscape causes a rebuild mid-animation
-    // where the Stack collapses because it briefly has no tight constraints.
-    // The RTCVideoView + objectFitCover handles any orientation correctly.
+    // Lock to portrait: getUserMedia always delivers landscape pixels (1280×720)
+    // with CVO metadata for orientation. Allowing landscape rotation triggers
+    // OrientationBuilder rebuilds that destroy/recreate the RTCVideoView —
+    // during that transition the Cover-fitted preview deforms. Locked portrait
+    // means the full CVO-corrected frame is always visible without cropping.
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Hide system bars so the video fills the full screen edge-to-edge.
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
@@ -46,8 +45,7 @@ class _CameraScreenState extends State<CameraScreen> {
     _renderer.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitDown,
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
@@ -88,7 +86,7 @@ class _CameraScreenState extends State<CameraScreen> {
               Positioned(
                 top: 16,
                 right: 16,
-                child: _statusBar(conn),
+                child: _statusBar(conn, cam),
               ),
 
               // ---- Controls overlay ----
@@ -128,7 +126,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   // ---- Status bar (latency, resolution) ----
-  Widget _statusBar(ConnectionService conn) {
+  Widget _statusBar(ConnectionService conn, CameraService cam) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
@@ -138,7 +136,6 @@ class _CameraScreenState extends State<CameraScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Connection dot
           Container(width: 7, height: 7,
               decoration: BoxDecoration(
                 color: conn.isConnected ? const Color(0xFF00BBDD) : Colors.orange,
@@ -147,6 +144,9 @@ class _CameraScreenState extends State<CameraScreen> {
           const SizedBox(width: 6),
           Text(conn.isConnected ? '${conn.latencyMs}ms' : 'reconnecting',
               style: const TextStyle(color: Colors.white, fontSize: 11)),
+          const SizedBox(width: 8),
+          Text(cam.resolutionLabel,
+              style: const TextStyle(color: Colors.white54, fontSize: 11)),
         ],
       ),
     );

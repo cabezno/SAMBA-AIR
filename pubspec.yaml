@@ -1,6 +1,6 @@
 name: samba_air
-description: SAMBA AIR — Use your phone as a professional camera by BLACKMAGICBOX
-version: 0.1.0+1
+description: SAMBA AIR — Professional multi-transport camera app by BLACKMAGICBOX
+version: 0.5.0+5
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -10,36 +10,34 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Camera
-  camera: ^0.11.0
+  # WebRTC — WHIP protocol (phone → SAMBA engine)
+  flutter_webrtc: ^1.4.1
 
-  # WebRTC — for WHIP protocol (phone → VortexEngine)
-  flutter_webrtc: ^0.10.6
-
-  # HTTP — for WHIP signaling POST
+  # HTTP — WHIP signaling POST
   http: ^1.2.0
 
   # State management
   provider: ^6.1.2
 
-  # Network discovery (find VortexEngine on LAN)
-  multicast_dns: ^0.3.2+5
-
-  # Settings persistence
+  # Settings persistence (last-used engine IP, camera name)
   shared_preferences: ^2.2.3
 
-  # UI extras
-  cupertino_icons: ^1.0.6
+  # QR scanner — ZXing C++/FFI, no ML Kit (avoids NPE on some devices)
+  flutter_zxing: ^1.6.1
+
+  # Permissions
   permission_handler: ^11.3.1
+
+  # UI
+  cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  integration_test:
-    sdk: flutter
 
 flutter:
   uses-material-design: true
   assets:
-    - assets/icons/
+    - assets/samba_logo.png
+    - assets/samba_active.png
