@@ -78,7 +78,7 @@ class OmtStreamPlugin(
             yBuf: ByteBuffer, yStride: Int,
             uvBuf: ByteBuffer, uvStride: Int): ByteArray?
 
-        fun registerWith(activity: FlutterActivity, engine: FlutterEngine) {
+        fun registerLocal(activity: FlutterActivity, engine: FlutterEngine) {
             val plugin = OmtStreamPlugin(activity.applicationContext)
             MethodChannel(engine.dartExecutor.binaryMessenger, CHANNEL)
                 .setMethodCallHandler(plugin)

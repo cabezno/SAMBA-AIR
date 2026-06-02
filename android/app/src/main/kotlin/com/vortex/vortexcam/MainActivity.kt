@@ -9,7 +9,7 @@ class MainActivity : FlutterActivity() {
         val registry = flutterEngine.plugins
 
         // Register native streaming plugins
-        VortexCamPlugin.registerWith(this, flutterEngine)
-        OmtStreamPlugin.registerWith(this, flutterEngine)
+        VortexCamPlugin.registerLocal(this, flutterEngine)
+        OmtStreamPlugin.registerLocal(this, flutterEngine)
     }
 }

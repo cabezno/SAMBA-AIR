@@ -84,7 +84,7 @@ class VortexCamPlugin(
     // Registration
     // ====================================================================
     companion object {
-        fun registerWith(activity: FlutterActivity, flutterEngine: FlutterEngine) {
+        fun registerLocal(activity: FlutterActivity, flutterEngine: FlutterEngine) {
             val plugin = VortexCamPlugin(
                 activity.applicationContext,
                 flutterEngine.renderer,
