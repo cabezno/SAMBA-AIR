@@ -104,6 +104,7 @@ class ConnectionConfig {
       WhipConfig? whip;
       SrtConfig?  srt;
       RtmpConfig? rtmp;
+      SblConfig?  sbl;
 
       if (j['whip'] is Map) {
         final url = (j['whip']['url'] ?? '').toString();
@@ -119,8 +120,13 @@ class ConnectionConfig {
         final url = (j['rtmp']['url'] ?? '').toString();
         if (url.isNotEmpty) rtmp = RtmpConfig(url: url);
       }
+      if (j['sbl'] is Map) {
+        final host = (j['sbl']['host'] ?? '').toString();
+        final port = (j['sbl']['port'] as num?)?.toInt() ?? 8890;
+        if (host.isNotEmpty) sbl = SblConfig(host: host, port: port);
+      }
 
-      if (whip == null && srt == null && rtmp == null) return null;
+      if (whip == null && srt == null && rtmp == null && sbl == null) return null;
 
       final v = j['video'] is Map ? j['video'] as Map : <String, dynamic>{};
       final video = VideoConfig(
@@ -136,6 +142,7 @@ class ConnectionConfig {
         whip:  whip,
         srt:   srt,
         rtmp:  rtmp,
+        sbl:   sbl,
         video: video,
       );
     } catch (_) {
