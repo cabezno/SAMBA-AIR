@@ -665,6 +665,7 @@ class _HomePageState extends State<_HomePage> with SingleTickerProviderStateMixi
   List<Transport> get _transportOptions {
     if (_config == null) return Transport.values;
     return [
+      if (_config!.hasSbl)  Transport.sbl,
       if (_config!.hasOmt)  Transport.omt,
       if (_config!.hasSrt)  Transport.srt,
       if (_config!.hasWhip) Transport.whip,
